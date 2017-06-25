@@ -5,8 +5,10 @@ The application is coded [Node.js](https://nodejs.org) and [Hapi](https://hapijs
 
 **Instructions:**
 
-1. Clone to the desired location.
-2. Before launching for the first time, run `npm install` from the project directory. This will initialize the node modules used by the application.
+1. Clone this repository to the desired location. (e.g., `git clone git@github.com:rotarydialer/Allergy-Tracker.git allergy-tracker`)
+2. Change to the project directory (e.g., `cd allergy-tracker`)
+3. Before launching for the first time, run `npm install` from the project directory. This will initialize the node modules used by the application.
+4. Start the application with `node index.js`.
 
 **Notes:**
 At present, a "Reaction" is considered a bad outcome. The assumption is if no Reaction follows the addition of a food, it is a safe food. There is no such thing as a positive (i.e., beneficial) Reaction.
