@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Diet Change</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="/scripts/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="/scripts/@fengyuanchen/datepicker/dist/datepicker.min.css">
+    <script src="/scripts/@fengyuanchen/datepicker/dist/datepicker.js"></script>
+
+    <link rel="stylesheet" type="text/css" class="ui" href="/semantic/dist/semantic.min.css">
+    <script src="/semantic/dist/semantic.min.js"></script>
+</head>
+
+<body>
+
+    <form class="form-horizontal" action="/db/save/dietchanges" method="POST">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Diet Change</legend>
+
+            <!-- Person -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="person">Person</label>
+                <div class="col-md-2">
+                    <select id="person" name="person" class="form-control">
+                        {{#each people}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Description-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="description">Description</label>
+                <div class="col-md-4">
+                    <input id="description" name="description" type="text" placeholder="" class="form-control input-md">
+                </div>
+            </div>
+
+            <!-- Date -->
+
+            <!-- See the date picker here: http://fengyuanchen.github.io/datepicker/ -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="date">Date</label>
+                <div class="col-md-2">
+
+                    <div class="agt-datepicker">
+                        <div class="input-group">
+                            <input id="date" type="text" class="form-control agt-date" name="date" placeholder="Pick a date">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default agt-datepicker-trigger">
+                                    <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="agt-datepicker-container"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <script>
+                $.fn.datepicker.setDefaults({
+                    autoPick: true,
+                    inline: false,
+                    autoHide: true,
+                    trigger: ".agt-datepicker-trigger"
+                });
+            </script>
+
+
+            <!-- See the Multiple Selection example here: https://semantic-ui.com/modules/dropdown.html -->
+            <!-- Foods Removed -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="foodsremoved">Foods Removed</label>
+                <div class="col-md-4">
+                    <select id="foodsremoved" name="foodsremoved" class="ui fluid search dropdown form-control" multiple="">
+                        <!--  -->
+                    </select>
+                </div>
+            </div>
+
+            <!-- Foods Added -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="foodsadded">Foods Added</label>
+                <div class="col-md-4">
+                    <select id="foodsadded" name="foodsadded" class="ui fluid search dropdown form-control" multiple="">
+                    </select>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="comments">Comments</label>
+                <div class="col-md-4">
+                    <textarea class="form-control" id="comments" name="comments"></textarea>
+                </div>
+            </div>
+
+            <!-- Save -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="save"></label>
+                <div class="col-md-4">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+<script src="/assets/js/datepicker.js"></script>
+<script>
+    // AJAX call to populate the Person field above
+    $.get( "/monk/people/names", function( data ) {
+        $( ".result" ).html( data );
+
+        $.each(data, function(index, value) {
+            option = $('<option value="' + value.name + '">' + value.name + '</option>');
+            $("#person").append(option);
+        });
+    });
+
+    // AJAX call to populate the Foods Removed/Added fields above
+    $.get( "/monk/foods", function( data ) {
+        $( ".result" ).html( data );
+
+        $.each(data, function populateFoodsRemoved(index, value) {
+            option = $('<option value="' + value.foodname + '">' + value.foodname + '</option>');
+            $("#foodsremoved").append(option);
+        });
+
+        // not sure why I have to repeat this for the append to work on both fields...
+        // likely due to the callback; tenuous understanding on this yet.
+        $.each(data, function populateFoodsAdded(index, value) {
+            option = $('<option value="' + value.foodname + '">' + value.foodname + '</option>');
+            $("#foodsadded").append(option);
+        });
+    });
+
+    // Semantic UI: initialize multi-select dropdowns
+    $('#foodsremoved').dropdown();
+    $('#foodsadded').dropdown();
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>People</title>
+
+    <script src="/scripts/jquery/dist/jquery.js"></script>
+    <!-- DataTables: https://datatables.net -->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/global.css">
+
+	<script type="text/javascript" class="init">
+	    $(document).ready(function() {
+            $('#datatable').DataTable( {
+                "ajax": "/db/people",
+                "order": [[ 0, "asc" ]],
+                "autoWidth": false,
+                "columns": [
+                    { "data": "name", "width": "15%" },
+                    { "data": "gender",
+                      "width": "",
+                      "render": function ( data, type, row ) {
+                            if ( type === 'display' || type === 'filter' ) {
+                                if (data == 'M') {
+                                    return('Male');
+                                } else {
+                                    return('Female');
+                                }
+                            }
+
+                            return(data);
+                      }
+                    }
+                ]
+            } );
+        } );
+	</script>
+
+</head>
+
+<body>
+    <h1>People</h1>
+
+    <table id="datatable" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Gender</th>
+            </tr>
+        </thead>
+    </table>
+    
+</body>
+
+</html>

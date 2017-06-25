@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Reaction</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="/scripts/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="/scripts/@fengyuanchen/datepicker/dist/datepicker.min.css">
+    <script src="/scripts/@fengyuanchen/datepicker/dist/datepicker.js"></script>
+
+    <link rel="stylesheet" type="text/css" class="ui" href="/semantic/dist/semantic.min.css">
+    <script src="/semantic/dist/semantic.min.js"></script>
+</head>
+
+<body>
+
+    <form class="form-horizontal" action="/db/save/reactions" method="POST">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Reaction</legend>
+
+            <!-- Person -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="person">Person</label>
+                <div class="col-md-2">
+                    <select id="person" name="person" class="form-control">
+                        {{#each people}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Date -->
+            <!-- See the date picker here: http://fengyuanchen.github.io/datepicker/ -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="date">Date</label>
+                <div class="col-md-2">
+
+                    <div class="agt-datepicker">
+                        <div class="input-group">
+                            <input id="date" type="text" class="form-control agt-date" name="date" placeholder="Pick a date">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default agt-datepicker-trigger">
+                                    <i class="glyphicon glyphicon-calendar" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="agt-datepicker-container"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <script>
+                $.fn.datepicker.setDefaults({
+                    autoPick: true,
+                    inline: false,
+                    autoHide: true,
+                    trigger: ".agt-datepicker-trigger"
+                });
+            </script>
+
+            <!-- Severity -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="severity">Severity</label>
+                <div class="col-md-1">
+                    <select id="severity" name="severity" class="ui fluid search dropdown form-control">
+                        <option value=""></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Suspected Foods -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="suspectedfoods">Suspected Foods</label>
+                <div class="col-md-6">
+                    <select id="suspectedfoods" name="suspectedfoods" class="ui fluid search dropdown form-control" multiple="">
+                        <!--  -->
+                    </select>
+                </div>
+            </div>
+
+            <!-- Description-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="description">Description</label>
+                <div class="col-md-6">
+                    <textarea class="form-control" id="description" name="description"></textarea>
+                </div>
+            </div>
+
+            <!-- Save -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="save"></label>
+                <div class="col-md-4">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+<script src="/assets/js/datepicker.js"></script>
+<script>
+    // AJAX call to populate the Person field above
+    $.get( "/monk/people/names", function( data ) {
+        $( ".result" ).html( data );
+
+        $.each(data, function(index, value) {
+            option = $('<option value="' + value.name + '">' + value.name + '</option>');
+            $("#person").append(option);
+        });
+    });
+
+    // AJAX call to populate the Suspected Foods field above
+    $.get( "/monk/foods", function( data ) {
+        $( ".result" ).html( data );
+
+        $.each(data, function populateSuspectedfoods(index, value) {
+            option = $('<option value="' + value.foodname + '">' + value.foodname + '</option>');
+            $("#suspectedfoods").append(option);
+        });
+
+        // add "Other" until free-form values can be allowed
+        option = $('<option value="Other">Other</option>');
+        $("#suspectedfoods").append(option);
+    });
+
+    // Semantic UI: initialize multi-select dropdowns
+    $('#suspectedfoods').dropdown();
+    $('#severity').dropdown();
+</script>
+</body>
+</html>

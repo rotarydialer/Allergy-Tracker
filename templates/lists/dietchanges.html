@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Diet Changes</title>
+
+    <!--<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>-->
+    <script src="/scripts/jquery/dist/jquery.js"></script>
+    <!-- DataTables: https://datatables.net -->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <!-- Generated this one, but not using it yet as it doesn't show sort arrows -->
+    <!--<link rel="stylesheet" type="text/css" href="/assets/css/datatables.css">-->
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/global.css">
+
+	<script type="text/javascript" class="init">
+	    $(document).ready(function() {
+            $('#dietchanges').DataTable( {
+                "ajax": "/db/dietchanges",
+                "order": [[ 1, "desc" ]],
+                "autoWidth": false,
+                "columns": [
+                    { "data": "person" },
+                    { "data": "date",
+                      "width": "",
+                      "render": function ( data, type, row ) {
+                            // If display or filter data is requested, format the date
+                            if ( type === 'display' || type === 'filter' ) {
+                                // look into moment.js for this: http://momentjs.com/
+                                var d = new Date( data );
+                                return (d.getMonth()+1 +'/'+ d.getDate() +'/'+ d.getFullYear());
+                            }
+                    
+                            // Otherwise the data type requested (`type`) is type detection or
+                            // sorting data, so just return the unaltered source data
+                            return data;
+                      }
+                    },
+                    { 
+                        "data": "description",
+                        "width": "",
+                        "defaultContent": ""
+                    },
+                    { 
+                        "data": "foodsremoved",
+                        "width": "20%",
+                        "defaultContent": "",
+                        "render": "[, ]"
+                    },
+                    { 
+                        "data": "foodsadded",
+                        "width": "20%",
+                        "defaultContent": "",
+                        "render": "[, ]"
+                    },
+                    { 
+                        "data": "comments",
+                        "defaultContent": "" 
+                    }
+                ]
+            } );
+        } );
+	</script>
+
+</head>
+
+<body>
+    <h1>Diet Changes</h1>
+
+    <table id="dietchanges" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Person</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Foods Removed</th>
+                <th>Foods Added</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+    <!-- <tfoot>
+            <tr>
+                <th>Person</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Foods Removed</th>
+                <th>Foods Added</th>
+                <th>Comments</th>
+            </tr>
+        </tfoot> -->
+    </table>
+    
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Reactions</title>
+
+    <script src="/scripts/jquery/dist/jquery.js"></script>
+    <!-- DataTables: https://datatables.net -->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/global.css">
+
+	<script type="text/javascript" class="init">
+	    $(document).ready(function() {
+            $('#datatable').DataTable( {
+                "ajax": "/db/reactions",
+                "order": [[ 1, "desc" ]],
+                "autoWidth": false,
+                "columns": [
+                    { "data": "person" },
+                    { "data": "date",
+                      "width": "",
+                      "render": function ( data, type, row ) {
+                            // If display or filter data is requested, format the date
+                            if ( type === 'display' || type === 'filter' ) {
+                                var d = new Date( data );
+                                return (d.getMonth()+1 +'/'+ d.getDate() +'/'+ d.getFullYear());
+                            }
+                            // Otherwise the data type requested (`type`) is type detection or
+                            // sorting data, so just return the unaltered source data
+                            return data;
+                      }
+                    },
+                    { "data": "severity",
+                      "width": "",
+                      "render": function ( data, type, row ) {
+                            console.log("Severity", data);
+                            return (parseInt(data));
+                      }
+                    },
+                    { 
+                        "data": "suspectedfoods",
+                        "width": "20%",
+                        "defaultContent": "",
+                        "render": "[, ]"
+                    },
+                    { 
+                        "data": "description",
+                        "width": "",
+                        "defaultContent": ""
+                    }
+                ]
+            } );
+        } );
+	</script>
+
+</head>
+
+<body>
+    <h1>Reactions</h1>
+
+    <table id="datatable" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Person</th>
+                <th>Date</th>
+                <th>Severity</th>
+                <th>Suspected Foods</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+    <!-- <tfoot>
+            <tr>
+                <th>Person</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Foods Removed</th>
+                <th>Foods Added</th>
+                <th>Comments</th>
+            </tr>
+        </tfoot> -->
+    </table>
+    
+</body>
+
+</html>

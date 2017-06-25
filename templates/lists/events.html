@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Other Events</title>
+
+    <script src="/scripts/jquery/dist/jquery.js"></script>
+    <!-- DataTables: https://datatables.net -->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/global.css">
+
+	<script type="text/javascript" class="init">
+	    $(document).ready(function() {
+            $('#datatable').DataTable( {
+                "ajax": "/db/events",
+                "order": [[ 1, "desc" ]],
+                "autoWidth": false,
+                "columns": [
+                    { "data": "person" },
+                    { "data": "date",
+                      "width": "",
+                      "render": function ( data, type, row ) {
+                            // If display or filter data is requested, format the date
+                            if ( type === 'display' || type === 'filter' ) {
+                                var d = new Date( data );
+                                return (d.getMonth()+1 +'/'+ d.getDate() +'/'+ d.getFullYear());
+                            }
+                            // Otherwise the data type requested (`type`) is type detection or
+                            // sorting data, so just return the unaltered source data
+                            return data;
+                      }
+                    },
+                    {
+                        "data": "description",
+                        "width": "25%",
+                        "defaultContent": ""
+                    },
+                    { 
+                        "data": "details",
+                        "width": "",
+                        "defaultContent": ""
+                    }
+                ]
+            } );
+        } );
+	</script>
+
+</head>
+
+<body>
+    <h1>Other Events</h1>
+
+    <table id="datatable" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Person</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+    </table>
+    
+</body>
+
+</html>
