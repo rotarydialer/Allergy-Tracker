@@ -6,3 +6,8 @@ It should go without saying, but if you decide to use this application, you do s
 and I offer no medical advice; this application just provides me a means
 
 This is coded Node.js and Hapi, with Mongodb as the database.
+
+*Instructions:*
+
+Clone to the desired location.
+Before launching for the first time, run "npm install" from the project directory. This will initialize the node modules used by the application.
