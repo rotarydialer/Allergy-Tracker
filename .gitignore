@@ -1,3 +1,7 @@
+# Exclude data directory
+# ...don't want to accidentally check in sensitive info now, do we?
+data/
+
 # Semantic UI build via:
 #	cd semantic
 #	gulp build
