@@ -1,4 +1,4 @@
-# Allergy-Tracker
+# Allergy Tracker
 An application to track possible food allergies. It works on the simple premise of tracking two simple things: Diet Changes (adding or removing foods from one's diet), and Reactions. This is meant to be used in conjuction with food allergy test results, one goal being to weed out false positives.
 
 It should go without saying, but if you decide to use this application, you do so at your own risk. I'm not a doctor
