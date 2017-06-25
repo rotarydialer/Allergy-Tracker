@@ -6,9 +6,9 @@ and I offer no medical advice; this application just provides me a means for kee
 
 At preset, a "Reaction" is considered a bad outcome. The assumption is if no Reaction follows the addition of a food, it is a safe food. There is no such thing as a *positive* Reaction.
 
-This is coded Node.js and Hapi, with Mongodb as the database.
+This is coded [Node.js](https://nodejs.org) and [Hapi](https://hapijs.com), with [MongoDB](https://www.mongodb.com) as its database.
 
 **Instructions:**
 
-Clone to the desired location.
-Before launching for the first time, run "npm install" from the project directory. This will initialize the node modules used by the application.
+1. Clone to the desired location.
+2. Before launching for the first time, run `npm install` from the project directory. This will initialize the node modules used by the application.
