@@ -13,7 +13,7 @@ The application is coded [Node.js](https://nodejs.org) and [Hapi](https://hapijs
 4. Start the application with `node index.js`.
 
 **Notes:**
-At present, a "Reaction" is considered a bad outcome. The assumption is if no Reaction follows the addition of a food, it is a safe food. There is no such thing as a positive (i.e., beneficial) Reaction.
+- At present, a "Reaction" is considered a bad outcome. The assumption is if no Reaction follows the addition of a food, it is a safe food. There is no such thing as a positive (i.e., beneficial) Reaction.
 
 **Disclaimer:**
 It should go without saying, but if you decide to use this application, you do so at your own risk. I'm not a doctor
