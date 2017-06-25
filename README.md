@@ -9,7 +9,7 @@ The application is coded [Node.js](https://nodejs.org) and [Hapi](https://hapijs
     1. `cd ~`
     2. `git clone git@github.com:rotarydialer/Allergy-Tracker.git allergy-tracker`
 2. Change to the project directory (e.g., `cd allergy-tracker`)
-3. Before launching for the first time, run `npm install` from the project directory. This will initialize the node modules used by the application.
+3. Before launching for the first time, run `npm install`. This will initialize the node modules used by the application.
 4. Start the application with `node index.js`.
 
 **Notes:**
