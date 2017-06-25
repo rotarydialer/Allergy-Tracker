@@ -20,6 +20,9 @@ db.then(() => {
 /*
 TO DO:
 
+Check collections on startup
+    If not present, create empty ones
+Handle empty collections better (at all!)
 ✓ List views for each collection (DataTables)
     ✓ Diet changes
     ✓ Reactions
