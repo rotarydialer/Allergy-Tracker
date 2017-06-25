@@ -1,0 +1,25 @@
+{
+  "name": "hapi-first",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chris",
+  "license": "ISC",
+  "dependencies": {
+    "@fengyuanchen/datepicker": "github:fengyuanchen/datepicker",
+    "handlebars": "^4.0.7",
+    "hapi": "^16.1.1",
+    "inert": "^4.2.0",
+    "joi": "^10.5.2",
+    "jquery": "^3.2.1",
+    "mongodb": "^2.2.26",
+    "monk": "^5.0.2",
+    "node-uuid": "^1.4.8",
+    "semantic-ui": "^2.2.10",
+    "socket.io": "^2.0.1",
+    "vision": "^4.1.1"
+  }
+}
