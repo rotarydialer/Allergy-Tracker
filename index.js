@@ -8,7 +8,7 @@ const uuid = require('node-uuid');
 
 const server = new hapi.Server();
 
-const connectionstring = 'mongodb://localhost:27018/allergytracker';
+const connectionstring = 'mongodb://localhost:27017/allergytracker';
 const db = monk(connectionstring);
 
 const dbclient = mongodb.MongoClient;
