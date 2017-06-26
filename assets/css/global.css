@@ -14,3 +14,23 @@ body {
     color: #333;
     background-color: #fff;
 }
+
+a:link { 
+	color:blue;
+	text-decoration: underline;
+}
+
+a:visited { 
+	color:blue;
+	text-decoration: underline;
+}
+
+a:hover { 
+	color:#437690; 
+	text-decoration: none;
+}
+
+a:active { 
+	color:#D0CFC8;
+	text-decoration: underline;
+}
