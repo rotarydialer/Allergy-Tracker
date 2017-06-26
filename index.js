@@ -25,10 +25,33 @@ function checkCollections() {
     // check the db to make sure the expected collections exist
    var expectedCollections = ['people', 'foods', 'dietchanges', 'reactions', 'events'];
 
-    console.log('Checking for expected collections: ' + expectedCollections);
+    console.log('Checking for expected collections: ');
 
+    var collCheck;
+
+    // this is probably not necessary, but I ultimately may want to whitelist and allow only certain collections
     expectedCollections.forEach(function(entry) {
-        console.log(' └── ' + entry);
+
+        dbclient.connect(connectionstring, function connectToDb (err, db) {
+            if (err) {
+                console.log('ERROR: Cannot connect to database server at ' + connectionstring, err);
+            } else {
+
+                var collection = db.collection(entry);
+
+                collection.find({}).toArray(function multipleResults (err, result) {
+                    if (err) {
+                        console.log('   └── ' + entry + ': ERROR - ' + err);
+                    } else if (result.length) {
+                        console.log('   └── ' + entry + ': OK - ' + result.length, 'results.');
+                    } else {
+                        console.log('   └── ' + entry + ': EMPTY');
+                    }
+
+                    db.close();
+                });
+            }
+        });
     });
 
 }
@@ -36,6 +59,7 @@ function checkCollections() {
 
 /*
 TO DO:
+
 
 Check collections on startup
     If not present, create empty ones
