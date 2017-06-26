@@ -14,8 +14,25 @@ const db = monk(connectionstring);
 const dbclient = mongodb.MongoClient;
 
 db.then(() => {
-  console.log('Monk: connected correctly to server')
+  console.log('Monk: connected correctly to server');
+
+  checkCollections();
+
 })
+
+function checkCollections() {
+
+    // check the db to make sure the expected collections exist
+   var expectedCollections = ['people', 'foods', 'dietchanges', 'reactions', 'events'];
+
+    console.log('Checking for expected collections: ' + expectedCollections);
+
+    expectedCollections.forEach(function(entry) {
+        console.log(' └── ' + entry);
+    });
+
+}
+
 
 /*
 TO DO:
@@ -161,7 +178,7 @@ server.register(require('inert'), function (err) {
         });
     }
 
-        server.route({
+    server.route({
         method: 'GET',
         path: '/db/{collection}/{id}',
         handler: getDbResultById
