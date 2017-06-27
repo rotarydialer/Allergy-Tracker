@@ -220,13 +220,9 @@ server.register(require('inert'), function (err) {
             if (err) {
                 console.log('Cannot connect to database server at ' + connectionstring, err);
             } else {
-                console.log('Connected to database', connectionstring);
-
                 var collection = db.collection(collectionName);
 
-                var ObjectID = require('mongodb').ObjectID;
-
-                collection.findOne({ _id: ObjectID(id) }, function singleResult (err, result) {
+                collection.findOne({ _id: id }, function singleResult (err, result) {
                     if (err) {
                         console.log('Collection "' + collectionName + '" not found.')
                         reply(err);
