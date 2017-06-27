@@ -214,7 +214,6 @@ server.register(require('inert'), function (err) {
         var queryId=null;
 
         console.log('Request "' + collectionName + '", _id:', id);
-        console.log(' └── id: ' + id);
 
         dbclient.connect(connectionstring, function connectToDb (err, db) {
             if (err) {
@@ -227,7 +226,8 @@ server.register(require('inert'), function (err) {
                         console.log('Collection "' + collectionName + '" not found.')
                         reply(err);
                     } else if (!result) {
-                        reply('id "' + id + '" not found in "' + collectionName + '".')
+                        console.log('ERROR: _id "' + id + '" not found in "' + collectionName + '".');
+                        reply('id "' + id + '" not found in "' + collectionName + '".');
                     } else {
                         reply(result);
                     }
@@ -238,7 +238,7 @@ server.register(require('inert'), function (err) {
 
         });
     }
-
+    
     // save to the database
     server.route({
         method: 'POST',
@@ -270,7 +270,7 @@ server.register(require('inert'), function (err) {
                             reply(err);
                         }
 
-                        reply(record);
+                        reply.file('templates/lists/' + collectionName + '.html');
                         
                         db.close();
 
