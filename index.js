@@ -337,7 +337,7 @@ server.register([require('vision'), require('inert')], function (err) {
         }
     });
 
-    // monk - db tests
+    // monk - db data to populate drop-down fields in entry forms
     // hardcode these few; figure out passing in params to monk later
     server.route({
         path: "/monk/people/names",
@@ -381,54 +381,6 @@ server.register([require('vision'), require('inert')], function (err) {
             });
 
             reply(data);
-        }
-    });
-
-    server.route({
-        path: "/monk",
-        method: "GET",
-        handler: function (request, reply) {
-            var people = db.get('people');
-
-            people.createIndex('name');
-
-            // field name: 0 excludes from results
-            // oddly, excluding all but 1 field fails (500) if you explicitly include that field.
-            // however, specifying just one includes _id, so it needs to be explicitly excluded.
-            reply(people.find({}, {
-                fields: {
-                    gender: 0,
-                    _id: 0
-                },
-                sort: {
-                    name: 1
-                }
-            }));
-
-            // sort by gender ascending (1) then by name descending (-1)
-            /*reply(people.find({}, {
-                fields: {
-                    name: 1,
-                    gender: 1
-                },
-                sort: {
-                    gender: 1,
-                    name: -1
-                } 
-            }));*/
-            //reply(people.find({}, 'name', {sort: {name: 1}})); // without field or sort it just returns _id
-            //reply(people.find({name: "Chris"}, {sort: {name: 1}})); // one result example
-
-            //db.close();
-        }
-    });
-
-    // a fah user page
-    server.route({
-        method: 'GET',
-        path: '/users/{userName}',
-        handler: function (request, reply) {
-            reply.view('user', { name: encodeURIComponent(request.params.userName) });
         }
     });
 
