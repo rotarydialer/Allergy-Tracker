@@ -13,6 +13,9 @@ const db = monk(connectionstring);
 
 const dbclient = mongodb.MongoClient;
 
+// as a convention (for now), I'll use const for npm module and var for self-defined files/routes.
+var routes = require('./config/routes');
+
 db.then(() => {
   console.log('Monk: connected correctly to server');
 
@@ -108,52 +111,7 @@ server.register(require('inert'), function (err) {
         throw err;
     }
 
-    // route for css files and other static assets
-    server.route({
-        path: "/assets/{path*}",
-        method: "GET",
-        handler: {
-            directory: {
-                path: "./assets",
-                listing: false,
-                index: false
-            }
-        }
-    });
-
-    // route for .js files in node_modules
-    server.route({
-        path: "/scripts/{path*}",
-        method: "GET",
-        handler: function (request, reply) {
-            pathName = encodeURI(request.params.path);
-
-            // e.g., this script include tag:
-            //      <script src="/scripts/@fengyuanchen/datepicker/dist/datepicker.min.js"></script>
-            // will resolve to this node module:
-            //      ./node_modules/@fengyuanchen/datepicker/dist/datepicker.min.js
-            var modInclude = __dirname + '/node_modules/' + pathName;
-
-            //console.log('Include for node module at "' + modInclude + '".' );
-
-            reply.file(modInclude);
-        }
-    });
-
-    // special route for semantic ui files (https://semantic-ui.com)
-    // Superfluous; I want to change this... place these instead in /scripts or /assets above
-    // TODO: Rebuild with gulp to desired location? Investigate.
-    server.route({
-        path: "/semantic/{path*}",
-        method: "GET",
-        handler: function (request, reply) {
-            pathName = encodeURI(request.params.path);
-
-            var modInclude = __dirname + '/semantic/' + pathName;
-
-            reply.file(modInclude);
-        }
-    });
+    server.route(routes);
 
     // ------------------------------------------------------------------------------------------------ //
     // hit the database
