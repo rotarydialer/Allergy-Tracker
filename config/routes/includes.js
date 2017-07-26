@@ -18,7 +18,7 @@ module.exports = [
             //      ./node_modules/@fengyuanchen/datepicker/dist/datepicker.min.js
             var modInclude = './node_modules/' + pathName;
 
-            console.log('Include for node module at "' + modInclude + '".' );
+            //console.log('Include for node module at "' + modInclude + '".' );
 
             reply.file(modInclude);
         }
@@ -29,7 +29,7 @@ module.exports = [
 
             var modInclude = './semantic/' + pathName;
 
-            console.log('Include for semantic node module at "' + modInclude + '".' );
+            //console.log('Include for semantic node module at "' + modInclude + '".' );
 
             reply.file(modInclude);
         }
