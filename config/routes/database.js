@@ -48,6 +48,40 @@ module.exports = [
         }
     },
     {
+        method: 'GET', 
+        path: '/db/{collection}/{id}', 
+        handler: function getDbResultById (request, reply) {
+            collectionName = encodeURIComponent(request.params.collection);
+            id = encodeURIComponent(request.params.id);
+            var queryId=null;
+
+            console.log('Request "' + collectionName + '", _id:', id);
+
+            dbclient.connect(connectionstring, function connectToDb (err, db) {
+                if (err) {
+                    console.log('Cannot connect to database server at ' + connectionstring, err);
+                } else {
+                    var collection = db.collection(collectionName);
+
+                    collection.findOne({ _id: id }, function singleResult (err, result) {
+                        if (err) {
+                            console.log('Collection "' + collectionName + '" not found.')
+                            reply(err);
+                        } else if (!result) {
+                            console.log('ERROR: _id "' + id + '" not found in "' + collectionName + '".');
+                            reply('id "' + id + '" not found in "' + collectionName + '".');
+                        } else {
+                            reply(result);
+                        }
+
+                        db.close();
+                    });
+                }
+
+            });
+        }
+    },
+    {
         method: 'GET', path: '/sepepepe/{path*}', handler: function (request, reply) {
             pathName = encodeURI(request.params.path);
 
