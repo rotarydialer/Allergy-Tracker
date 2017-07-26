@@ -17,7 +17,7 @@ const dbclient = mongodb.MongoClient;
 var routes = require('./config/routes');
 
 db.then(() => {
-  console.log('Monk: connected correctly to server');
+  console.log('Monk: connected correctly to server...');
 
   checkCollections();
 
@@ -115,50 +115,50 @@ server.register(require('inert'), function (err) {
 
     // ------------------------------------------------------------------------------------------------ //
     // hit the database
-    server.route({
-        method: 'GET',
-        path: '/db/{collection}',
-        handler: getDbCollection
-    });
+    // server.route({
+    //     method: 'GET',
+    //     path: '/db/{collection}',
+    //     handler: getDbCollection
+    // });
 
-    function getDbCollection (request, reply) {
-        collectionName = encodeURIComponent(request.params.collection);
-        id = encodeURIComponent(request.params.id);
-        var queryId=null;
+    // function getDbCollection (request, reply) {
+    //     collectionName = encodeURIComponent(request.params.collection);
+    //     id = encodeURIComponent(request.params.id);
+    //     var queryId=null;
 
-        console.log('Request to connect to collection "' + collectionName + '"');
+    //     console.log('Request to connect to collection "' + collectionName + '"');
 
-        dbclient.connect(connectionstring, function connectToDb (err, db) {
-            if (err) {
-                console.log('Cannot connect to database server at ' + connectionstring, err);
-            } else {
-                console.log('Connected to database', connectionstring);
+    //     dbclient.connect(connectionstring, function connectToDb (err, db) {
+    //         if (err) {
+    //             console.log('Cannot connect to database server at ' + connectionstring, err);
+    //         } else {
+    //             console.log('Connected to database', connectionstring);
 
-                var collection = db.collection(collectionName);
+    //             var collection = db.collection(collectionName);
 
-                // ugh, put a check here for id I guess.
+    //             // ugh, put a check here for id I guess.
 
-                collection.find({}).toArray(function multipleResults (err, result) {
-                    if (err) {
-                        console.log('Collection "' + collectionName + '" not found.')
-                        reply(err);
-                    } else if (result.length) {
-                        console.log('>', result.length, 'results in collection "' + collectionName + '".');
+    //             collection.find({}).toArray(function multipleResults (err, result) {
+    //                 if (err) {
+    //                     console.log('Collection "' + collectionName + '" not found.')
+    //                     reply(err);
+    //                 } else if (result.length) {
+    //                     console.log('>', result.length, 'results in collection "' + collectionName + '".');
 
-                        var data = {};
-                        data['data'] = result;
+    //                     var data = {};
+    //                     data['data'] = result;
 
-                        reply(data);
-                    } else {
-                        reply('Nothing found in "' + collectionName + '".')
-                    }
+    //                     reply(data);
+    //                 } else {
+    //                     reply('Nothing found in "' + collectionName + '".')
+    //                 }
 
-                    db.close();
-                });
-            }
+    //                 db.close();
+    //             });
+    //         }
 
-        });
-    }
+    //     });
+    // }
 
     server.route({
         method: 'GET',
