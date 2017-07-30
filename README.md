@@ -11,7 +11,7 @@ The application is coded [Node.js](https://nodejs.org) and [Hapi](https://hapijs
 2. Change to the project directory (e.g., `cd allergy-tracker`)
 3. Before launching for the first time, run `npm install`. This will initialize the node modules used by the application.
 4. Start the application with `node index.js`.
-5. Once started, you'll see a message, `Hapi server running at http://localhost:9000`. Open a browser and visit the URL shown.
+5. Once started, you'll see a message similar to, `Hapi server running at http://localhost:9000`. Open a browser and visit the URL shown.
 
 **Notes:**
 - At present, a "Reaction" is considered a bad outcome. The assumption is if no Reaction follows the addition of a food, it is a safe food. There is no such thing as a positive (i.e., beneficial) Reaction.
