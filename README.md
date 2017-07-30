@@ -1,5 +1,5 @@
 # Allergy Tracker
-An application to track possible food allergies. It works on the premise of tracking two simple things: **Diet Changes** (adding or removing foods from one's diet), and **Reactions** (an outcome *possibly* linked to the addition or accidental ingestion of a food). It is meant to be used in conjuction with food allergy test results, one goal being to weed out false positives.
+An application to help identify possible food allergies. It works on the premise of tracking two simple things: **Diet Changes** (adding or removing foods from one's diet), and **Reactions** (an outcome *possibly* linked to the addition or accidental ingestion of a food). It is meant to be used in conjuction with food allergy test results, one goal being to weed out false positives.
 
 The application is coded [Node.js](https://nodejs.org) and [Hapi](https://hapijs.com), with [MongoDB](https://www.mongodb.com) as its database.
 
