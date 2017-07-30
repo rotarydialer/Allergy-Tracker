@@ -2,8 +2,17 @@ const mongodb = require('mongodb');
 const dbclient = mongodb.MongoClient;
 const joi = require('joi');
 const uuid = require('node-uuid');
+const monk = require('monk');
 
 const connectionstring = 'mongodb://localhost:27017/allergytracker';
+const db = monk(connectionstring);
+
+db.then(() => {
+  console.log('Monk: connected correctly to server...');
+
+  checkCollections();
+
+})
 
 module.exports = [
     {
@@ -14,7 +23,7 @@ module.exports = [
             id = encodeURIComponent(request.params.id);
             var queryId=null;
 
-            console.log('ROUTED request to connect to collection "' + collectionName + '"');
+            console.log('Request to connect to collection "' + collectionName + '"');
 
             dbclient.connect(connectionstring, function connectToDb (err, db) {
                 if (err) {
@@ -136,41 +145,87 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        // using monk for simple db interactions
+        method: 'GET', 
+        path: '/monk/foods', 
+        handler: function (request, reply) {
+            var foods = db.get('foods');
+
+            var data = {};
+            data = foods.find({}, {
+                fields: {
+                    foodname: 1,
+                    _id: 0
+                },
+                sort: {
+                    foodname: 1
+                }
+            });
+
+            reply(data);
+        }
+    },
+    {
+        // using monk for simple db interactions:
+        // db data to populate drop-down fields in entry forms
+        // hardcode these few; figure out passing in params to monk later
+        method: 'GET', 
+        path: '/monk/people/names', 
+        handler: function (request, reply) {
+            var people = db.get('people');
+
+            people.find({}, {
+                fields: {
+                    gender: 0,
+                    _id: 0
+                },
+                sort: {
+                    name: 1
+                }
+            }, function(err, results) {
+                var obj = {
+                    fromDB: results
+                }
+                reply(results);
+            });
+        }
     }
 ];
 
-// function checkCollections() {
+function checkCollections() {
 
-//     // check the db to make sure the expected collections exist
-//    var expectedCollections = ['people', 'foods', 'dietchanges', 'reactions', 'events'];
+    // check the db to make sure the expected collections exist
+   var expectedCollections = ['people', 'foods', 'dietchanges', 'reactions', 'events'];
 
-//     console.log('Checking for expected collections: ');
+    console.log('Checking for expected collections: ');
 
-//     var collCheck;
+    var collCheck;
 
-//     // this is probably not necessary, but I ultimately may want to whitelist and allow only certain collections
-//     expectedCollections.forEach(function(entry) {
+    // this is probably not necessary, but I ultimately may want to whitelist and allow only certain collections
+    expectedCollections.forEach(function(entry) {
 
-//         dbclient.connect(connectionstring, function connectToDb (err, db) {
-//             if (err) {
-//                 console.log('ERROR: Cannot connect to database server at ' + connectionstring, err);
-//             } else {
+        dbclient.connect(connectionstring, function connectToDb (err, db) {
+            if (err) {
+                console.log('ERROR: Cannot connect to database server at ' + connectionstring, err);
+            } else {
 
-//                 var collection = db.collection(entry);
+                var collection = db.collection(entry);
 
-//                 collection.find({}).toArray(function multipleResults (err, result) {
-//                     if (err) {
-//                         console.log('   └── ' + entry + ': ERROR - ' + err);
-//                     } else if (result.length) {
-//                         console.log('   └── ' + entry + ': OK - ' + result.length, 'results.');
-//                     } else {
-//                         console.log('   └── ' + entry + ': EMPTY');
-//                     }
+                collection.find({}).toArray(function multipleResults (err, result) {
+                    if (err) {
+                        console.log('   └── ' + entry + ': ERROR - ' + err);
+                    } else if (result.length) {
+                        console.log('   └── ' + entry + ': OK - ' + result.length, 'results.');
+                    } else {
+                        console.log('   └── ' + entry + ': EMPTY');
+                    }
 
-//                     db.close();
-//                 });
-//             }
-//         });
-//     });
+                    db.close();
+                });
+            }
+        });
+    });
 
-// }
+}

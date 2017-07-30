@@ -1,68 +1,16 @@
 const hapi = require('hapi');
 const path = require('path');
-const mongodb = require('mongodb');
-const monk = require('monk');
 const hbs = require('handlebars');
 
 const server = new hapi.Server();
 
-const connectionstring = 'mongodb://localhost:27017/allergytracker';
-const db = monk(connectionstring);
-
-const dbclient = mongodb.MongoClient;
-
 // as a convention (for now), I'll use const for npm module and var for self-defined files/routes.
 var routes = require('./config/routes');
-
-db.then(() => {
-  console.log('Monk: connected correctly to server...');
-
-  checkCollections();
-
-})
-
-function checkCollections() {
-
-    // check the db to make sure the expected collections exist
-   var expectedCollections = ['people', 'foods', 'dietchanges', 'reactions', 'events'];
-
-    console.log('Checking for expected collections: ');
-
-    var collCheck;
-
-    // this is probably not necessary, but I ultimately may want to whitelist and allow only certain collections
-    expectedCollections.forEach(function(entry) {
-
-        dbclient.connect(connectionstring, function connectToDb (err, db) {
-            if (err) {
-                console.log('ERROR: Cannot connect to database server at ' + connectionstring, err);
-            } else {
-
-                var collection = db.collection(entry);
-
-                collection.find({}).toArray(function multipleResults (err, result) {
-                    if (err) {
-                        console.log('   └── ' + entry + ': ERROR - ' + err);
-                    } else if (result.length) {
-                        console.log('   └── ' + entry + ': OK - ' + result.length, 'results.');
-                    } else {
-                        console.log('   └── ' + entry + ': EMPTY');
-                    }
-
-                    db.close();
-                });
-            }
-        });
-    });
-
-}
-
 
 /*
 TO DO:
 
-
-Check collections on startup
+✓ Check collections on startup
     If not present, create empty ones
 Handle empty collections better (at all!)
 ✓ List views for each collection (DataTables)
@@ -148,53 +96,6 @@ server.register([require('vision'), require('inert')], function (err) {
             form = encodeURIComponent(request.params.formname);
 
             reply.view('forms/' + form);
-        }
-    });
-
-    // monk - db data to populate drop-down fields in entry forms
-    // hardcode these few; figure out passing in params to monk later
-    server.route({
-        path: "/monk/people/names",
-        method: "GET",
-        handler: function (request, reply) {
-            var people = db.get('people');
-
-            people.find({}, {
-                fields: {
-                    gender: 0,
-                    _id: 0
-                },
-                sort: {
-                    name: 1
-                }
-            }, function(err, results) {
-                var obj = {
-                    fromDB: results
-                }
-                //reply(obj);
-                reply(results);
-            });
-        }
-    });
-
-    server.route({
-        path: "/monk/foods",
-        method: "GET",
-        handler: function (request, reply) {
-            var foods = db.get('foods');
-
-            var data = {};
-            data = foods.find({}, {
-                fields: {
-                    foodname: 1,
-                    _id: 0
-                },
-                sort: {
-                    foodname: 1
-                }
-            });
-
-            reply(data);
         }
     });
 
