@@ -1,5 +1,7 @@
 const mongodb = require('mongodb');
 const dbclient = mongodb.MongoClient;
+const joi = require('joi');
+const uuid = require('node-uuid');
 
 const connectionstring = 'mongodb://localhost:27017/allergytracker';
 
@@ -10,7 +12,6 @@ module.exports = [
         handler: function (request, reply) {
             collectionName = encodeURIComponent(request.params.collection);
             id = encodeURIComponent(request.params.id);
-            console.log('Here comes ' + collectionName);
             var queryId=null;
 
             console.log('ROUTED request to connect to collection "' + collectionName + '"');
@@ -82,14 +83,58 @@ module.exports = [
         }
     },
     {
-        method: 'GET', path: '/sepepepe/{path*}', handler: function (request, reply) {
-            pathName = encodeURI(request.params.path);
+        method: 'POST', 
+        path: '/db/save/{collection}', 
+        handler: function getDbResultById (request, reply) {
 
-            var modInclude = './semantic/' + pathName;
+            collectionName = encodeURIComponent(request.params.collection);
 
-            //console.log('Include for semantic node module at "' + modInclude + '".' );
+            console.log('Request to connect to collection "' + collectionName + '"');
 
-            reply.file(modInclude);
+            dbclient.connect(connectionstring, function (err, db) {
+                if (err) {
+                    console.log('Cannot connect to database server at ' + connectionstring, err);
+                } else {
+                    var collection = db.collection(collectionName);
+
+                    const record = request.payload;
+
+                    //Create an id
+                    record._id = uuid.v1();
+
+                    console.log('Saving to database/collection', connectionstring, collectionName);
+                    console.log(record);
+
+                    collection.save(record, function (err, result) {
+
+                        if (err) {
+                            reply(err);
+                        }
+
+                        reply.file('templates/lists/' + collectionName + '.html');
+                        
+                        db.close();
+
+                    });
+
+                }
+
+            });
+        },
+        config: {
+            validate: {
+                payload: {
+                    person: joi.string().required(),
+                    description: joi.string(),
+                    date: joi.date().required(),
+                    foodsremoved: joi.array().items(joi.string().allow('')).single(),
+                    foodsadded: joi.array().items(joi.string().allow('')).single(),
+                    suspectedfoods: joi.array().items(joi.string().allow('')).single(),
+                    severity: joi.number().integer().allow(''),
+                    comments: joi.string().allow(''),
+                    details: joi.string().allow('')
+                }
+            }
         }
     }
 ];

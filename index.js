@@ -1,10 +1,8 @@
 const hapi = require('hapi');
-const joi = require('joi');
 const path = require('path');
 const mongodb = require('mongodb');
 const monk = require('monk');
 const hbs = require('handlebars');
-const uuid = require('node-uuid');
 
 const server = new hapi.Server();
 
@@ -113,64 +111,6 @@ server.register(require('inert'), function (err) {
 
     server.route(routes);
     
-    // save to the database
-    server.route({
-        method: 'POST',
-        path: '/db/save/{collection}',
-        handler: function (request, reply) {
-            var dbclient = mongodb.MongoClient;
-
-            collectionName = encodeURIComponent(request.params.collection);
-
-            console.log('Request to connect to collection "' + collectionName + '"');
-
-            dbclient.connect(connectionstring, function (err, db) {
-                if (err) {
-                    console.log('Cannot connect to database server at ' + connectionstring, err);
-                } else {
-                    var collection = db.collection(collectionName);
-
-                    const record = request.payload;
-
-                    //Create an id
-                    record._id = uuid.v1();
-
-                    console.log('Saving to database/collection', connectionstring, collectionName);
-                    console.log(record);
-
-                    collection.save(record, function (err, result) {
-
-                        if (err) {
-                            reply(err);
-                        }
-
-                        reply.file('templates/lists/' + collectionName + '.html');
-                        
-                        db.close();
-
-                    });
-
-                }
-
-            });
-        },
-        config: {
-            validate: {
-                payload: {
-                    person: joi.string().required(),
-                    description: joi.string(),
-                    date: joi.date().required(),
-                    foodsremoved: joi.array().items(joi.string().allow('')).single(),
-                    foodsadded: joi.array().items(joi.string().allow('')).single(),
-                    suspectedfoods: joi.array().items(joi.string().allow('')).single(),
-                    severity: joi.number().integer().allow(''),
-                    comments: joi.string().allow(''),
-                    details: joi.string().allow('')
-                }
-            }
-        }
-    });
-
     // routes for lists/"views" of data
     server.route({
         path: "/list/{collection}",
