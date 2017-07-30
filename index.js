@@ -38,19 +38,6 @@ server.connection({
     port: 9000 // TODO: move this to a config file
 });
 
-var io = require('socket.io')(server.listener);
-
-var count = 0;
-
-io.on('connection', function (socket) {
-    socket.emit('count', { count: count });
-    socket.on('increment', function () {
-        count++;
-        console.log('Counter incremented to ' + count);
-        io.sockets.emit('count', { count: count });
-    });
-});
-
 // inert is used to serve static content, basically (files)
 server.register(require('inert'), function (err) {
     if (err) {

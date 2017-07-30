@@ -8,7 +8,7 @@ const connectionstring = 'mongodb://localhost:27017/allergytracker';
 const db = monk(connectionstring);
 
 db.then(() => {
-  console.log('Monk: connected correctly to server...');
+  console.log('Monk: connected correctly to MongoDB server');
 
   checkCollections();
 
