@@ -16,5 +16,16 @@ module.exports = [
 
             reply.file('templates/lists/' + collectionName + '.html');
         }
+    },
+    {
+        // an input form - generic
+        // the form must exist in /templates/forms/
+        method: 'GET', 
+        path: '/input/{formname}', 
+        handler: function (request, reply) {
+            form = encodeURIComponent(request.params.formname);
+
+            reply.view('forms/' + form);
+        }
     }
 ];

@@ -39,32 +39,11 @@ server.connection({
 });
 
 // inert is used to serve static content, basically (files)
-server.register([require('vision'), require('inert')], function (err) {
-    if (err) {
-        throw err;
-    }
-
-    server.route(routes);
-
-});
-
 // vision is used to serve "views"
 server.register([require('vision'), require('inert')], function (err) {
     if (err) {
         throw err;
     }
-
-    // an input form - generic
-    // the form must exist in ./templates/forms/
-    server.route({
-        method: 'GET',
-        path: '/input/{formname}',
-        handler: function (request, reply) {
-            form = encodeURIComponent(request.params.formname);
-
-            reply.view('forms/' + form);
-        }
-    });
 
     server.views({
         engines: {
@@ -73,6 +52,8 @@ server.register([require('vision'), require('inert')], function (err) {
         relativeTo: __dirname,
         path: 'templates'
     });
+
+    server.route(routes);
 
 });
 
