@@ -3,6 +3,13 @@
 module.exports = [
     {
         method: 'GET', 
+        path: '/', 
+        handler: function (request, reply) {
+            reply.view('index', { appname: 'Allergy Tracker' });
+        }
+    },
+    {
+        method: 'GET', 
         path: '/list/{collection}', 
         handler: function (request, reply) {
             collectionName = encodeURIComponent(request.params.collection);
