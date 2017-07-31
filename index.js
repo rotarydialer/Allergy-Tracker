@@ -47,15 +47,15 @@ server.register(require('inert'), function (err) {
     server.route(routes);
     
     // routes for lists/"views" of data
-    server.route({
-        path: "/list/{collection}",
-        method: "GET",
-        handler: function (request, reply) {
-            collectionName = encodeURIComponent(request.params.collection);
+    // server.route({
+    //     path: "/list/{collection}",
+    //     method: "GET",
+    //     handler: function (request, reply) {
+    //         collectionName = encodeURIComponent(request.params.collection);
 
-            reply.file('templates/lists/' + collectionName + '.html');
-        }
-    });
+    //         reply.file('templates/lists/' + collectionName + '.html');
+    //     }
+    // });
 
 });
 
