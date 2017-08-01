@@ -27,5 +27,17 @@ module.exports = [
 
             reply.view('forms/' + form);
         }
+    },
+    {
+        // read mode for a given record
+        // the form must exist in /templates/forms/
+        method: 'GET', 
+        path: '/{type}/{id}/read', 
+        handler: function (request, reply) {
+            type = encodeURIComponent(request.params.type);
+            id = encodeURIComponent(request.params.id);
+
+            reply.view('forms/' + type + '-read');
+        }
     }
 ];

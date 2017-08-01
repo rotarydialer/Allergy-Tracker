@@ -16,9 +16,12 @@
 	    $(document).ready(function() {
             $('#datatable').DataTable( {
                 "ajax": "/db/events",
-                "order": [[ 1, "desc" ]],
+                "order": [[ 2, "desc" ]],
                 "autoWidth": false,
                 "columns": [
+                    { "data": "_id",
+                      "visible": false
+                    },
                     { "data": "person" },
                     { "data": "date",
                       "width": "",
@@ -36,7 +39,18 @@
                     {
                         "data": "description",
                         "width": "25%",
-                        "defaultContent": ""
+                        "defaultContent": "",
+                        "render": function ( data, type, row ) {
+                                // If display or filter data is requested, format
+                                if ( type === 'display' || type === 'filter' ) {
+                                    //var position = table.fnGetPosition(this);
+                                    var href = '<a href="/event/' + row._id + '/read">'
+                                    return (href + data + '</a>');
+                                }
+                                // Otherwise the data type requested (`type`) is type detection or
+                                // sorting data, so just return the unaltered source data
+                                return data;
+                        }
                     },
                     { 
                         "data": "details",
@@ -56,6 +70,7 @@
     <table id="datatable" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
+                <th>_id</th>
                 <th>Person</th>
                 <th>Date</th>
                 <th>Description</th>
