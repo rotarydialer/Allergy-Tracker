@@ -26,7 +26,11 @@
                             // If display or filter data is requested, format the date
                             if ( type === 'display' || type === 'filter' ) {
                                 var d = new Date( data );
-                                return (d.getMonth()+1 +'/'+ d.getDate() +'/'+ d.getFullYear());
+                                var dateString = d.getMonth()+1 +'/'+ d.getDate() +'/'+ d.getFullYear();
+
+                                var href = '<a href="/read/reaction/' + row._id + '">'
+
+                                return (href + dateString + '</a>');
                             }
                             // Otherwise the data type requested (`type`) is type detection or
                             // sorting data, so just return the unaltered source data

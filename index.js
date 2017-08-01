@@ -48,7 +48,7 @@ server.register([require('vision'), require('inert')], function (err) {
         engines: {
             html: require('handlebars')
         },
-        relativeTo: __dirname,
+        relativeTo: ".",
         path: 'templates'
     });
 
