@@ -11,6 +11,7 @@
   "dependencies": {
     "@fengyuanchen/datepicker": "github:fengyuanchen/datepicker",
     "handlebars": "^4.0.7",
+    "handlebars-intl": "^1.1.2",
     "hapi": "^16.1.1",
     "inert": "^4.2.0",
     "joi": "^10.5.2",

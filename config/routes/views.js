@@ -1,4 +1,7 @@
 const hbs = require('handlebars');
+const hbsintl = require('handlebars-intl');
+
+hbsintl.registerWith(hbs);
 
 // "views" are user-facing views of data. 
 // e.g., lists of records, views of single records (both read- and edit-mode)
