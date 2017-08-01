@@ -10,58 +10,15 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="/scripts/jquery/dist/jquery.js"></script>
-
-    <script type="text/javascript">
-        // there's got to be a more elegant way to pass the id in...
-        var id = window.location.href.substr(window.location.href.lastIndexOf('/') + 1);
-        console.log('id :' + id );
-
-        $(document).ready(function() {
-            $.get(
-                "/db/events/" + id,
-                function( data ) {
-                    console.log( "Data Loaded: " + data );
-                }
-            )
-        });
-
-    </script>
 </head>
 
 <body>
-    <legend>Other Event - READ</legend>
+    <legend>Other Event</legend>
 
-    <!-- Person -->
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="person">Person</label>
-        <div class="col-md-2">
-            {{person}}
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="date">Date</label>
-        <div class="col-md-2">
-            --DATE--
-        </div>
-    </div>
-
-    <!-- Description-->
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="description">Description</label>
-        <div class="col-md-4">
-            --DESC--
-        </div>
-    </div>
-
-    <!-- Details -->
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="details">Details</label>
-        <div class="col-md-4">
-            --DETAILS--
-        </div>
-    </div>
-
+    <h3>{{description}}</h3>
+    <p><b>Person:</b> {{person}}</p>
+    <p><b>Date:</b> {{date}}</p>
+    <p><b>Details:</b> {{details}}</p>
 
 </body>
 </html>

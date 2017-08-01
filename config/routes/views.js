@@ -1,3 +1,5 @@
+const hbs = require('handlebars');
+
 // "views" are user-facing views of data. 
 // e.g., lists of records, views of single records (both read- and edit-mode)
 module.exports = [
@@ -37,7 +39,30 @@ module.exports = [
             type = encodeURIComponent(request.params.type);
             id = encodeURIComponent(request.params.id);
 
-            reply.view('forms/' + type + '-read');
+            var request = require("request");
+            var data;
+
+            // TODO: remove hardcoded root
+            var url = "http://clive:9000" + "/db/events/" + id;
+
+            request({
+                url: url,
+                json: true
+            }, function (error, response, body) {
+
+                if (!error && response.statusCode === 200) {
+                    console.log(" ...returning data for _id: " + id);
+                    console.log(body); // Print the json response
+
+                    //TODO: put a check here to make sure the JSON is valid
+                    data = body;
+
+                    reply.view('forms/' + type + '-read', data );
+                } else {
+                    console.log("There was an error accessing " + url);
+                    console.log(error);
+                }
+            });
         }
     }
 ];
