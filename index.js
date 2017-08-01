@@ -1,6 +1,5 @@
 const hapi = require('hapi');
 const path = require('path');
-const hbs = require('handlebars');
 
 const server = new hapi.Server();
 

@@ -32,7 +32,7 @@ module.exports = [
         // read mode for a given record
         // the form must exist in /templates/forms/
         method: 'GET', 
-        path: '/{type}/{id}/read', 
+        path: '/read/{type}/{id}', 
         handler: function (request, reply) {
             type = encodeURIComponent(request.params.type);
             id = encodeURIComponent(request.params.id);
