@@ -45,8 +45,8 @@ module.exports = [
             var request = require("request");
             var data;
 
-            // TODO: remove hardcoded root
-            var url = "http://clive:9000" + "/db/events/" + id;
+            // TODO: remove hardcoded root and effed up type/collection
+            var url = "http://clive:9000" + "/db/" + type + "s/" + id;
 
             request({
                 url: url,
