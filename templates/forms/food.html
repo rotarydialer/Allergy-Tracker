@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Food</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="/scripts/jquery/dist/jquery.js"></script>
+</head>
+
+<body>
+
+    <form class="form-horizontal" action="/db/save/foods" method="POST">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Food</legend>
+
+            <!-- Food Name -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="foodname">Food Name:</label>
+                <div class="col-md-4">
+                    <input id="foodname" name="foodname" type="text" placeholder="" class="form-control input-md">
+                </div>
+            </div>
+
+            <!-- Save -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="save"></label>
+                <div class="col-md-4">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+</body>
+</html>
