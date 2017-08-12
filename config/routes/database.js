@@ -93,6 +93,55 @@ module.exports = [
     },
     {
         method: 'POST', 
+        path: '/db/save/foods', 
+        handler: function getDbResultById (request, reply) {
+
+            collectionName = 'foods';
+
+            console.log('Request to connect to collection "' + collectionName + '"');
+
+            dbclient.connect(connectionstring, function (err, db) {
+                if (err) {
+                    console.log('Cannot connect to database server at ' + connectionstring, err);
+                } else {
+                    var collection = db.collection(collectionName);
+
+                    const record = request.payload;
+
+                    //Create an id -- bad: causes _id to be string instead of ObjectID
+                    //record._id = uuid.v1();
+
+                    console.log('record._id: ' + record._id)
+
+                    console.log('Saving to database/collection', connectionstring, collectionName);
+                    console.log(record);
+
+                    collection.save(record, function (err, result) {
+
+                        if (err) {
+                            reply(err);
+                        }
+
+                        reply.file('templates/lists/' + collectionName + '.html');
+                        
+                        db.close();
+
+                    });
+
+                }
+
+            });
+        },
+        config: {
+            validate: {
+                payload: {
+                    foodname: joi.string().required(),
+                }
+            }
+        }
+    },
+    {
+        method: 'POST', 
         path: '/db/save/{collection}', 
         handler: function getDbResultById (request, reply) {
 
@@ -107,9 +156,6 @@ module.exports = [
                     var collection = db.collection(collectionName);
 
                     const record = request.payload;
-
-                    //Create an id
-                    record._id = uuid.v1();
 
                     console.log('Saving to database/collection', connectionstring, collectionName);
                     console.log(record);
