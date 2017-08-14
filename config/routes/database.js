@@ -21,7 +21,6 @@ module.exports = [
         handler: function (request, reply) {
             collectionName = encodeURIComponent(request.params.collection);
             id = encodeURIComponent(request.params.id);
-            var queryId=null;
 
             console.log('Request to connect to collection "' + collectionName + '"');
 
@@ -63,7 +62,7 @@ module.exports = [
         handler: function getDbResultById (request, reply) {
             collectionName = encodeURIComponent(request.params.collection);
             id = encodeURIComponent(request.params.id);
-            var queryId=null;
+            var queryId = new mongodb.ObjectID(id);
 
             console.log('Request "' + collectionName + '", _id:', id);
 
@@ -73,7 +72,7 @@ module.exports = [
                 } else {
                     var collection = db.collection(collectionName);
 
-                    collection.findOne({ _id: id }, function singleResult (err, result) {
+                    collection.findOne({ _id: queryId }, function singleResult (err, result) {
                         if (err) {
                             console.log('Collection "' + collectionName + '" not found.')
                             reply(err);
