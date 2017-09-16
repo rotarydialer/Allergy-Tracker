@@ -6,8 +6,11 @@ WORKDIR /opt/app
 
 # Install dependencies
 COPY package.json .
+COPY index.js .
 COPY semantic.json .
-COPY semantic/ .
+COPY assets assets/
+COPY config config/
+COPY templates templates/
 
 RUN npm install
 

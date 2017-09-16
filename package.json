@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Chris",
@@ -19,7 +20,7 @@
     "mongodb": "^2.2.26",
     "monk": "^5.0.2",
     "node-uuid": "^1.4.8",
-    "semantic-ui": "^2.2.10",
+    "semantic-ui-less": "^2.2.10",
     "socket.io": "^2.0.1",
     "vision": "^4.1.1"
   }
