@@ -34,3 +34,8 @@ a:active {
 	color:#D0CFC8;
 	text-decoration: underline;
 }
+
+.form-generic textarea{
+    width: 100%;
+    height: 400px;
+}
